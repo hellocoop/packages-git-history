@@ -32,7 +32,7 @@
   "homepage": "https://github.com/hellocoop/packages#readme",
   "scripts": {
     "watch": "tsc --watch --declaration",
-    "build": "npm run build:clean && npm run build:src",
+    "build": "./scripts/fetch-btn-css-cdn.sh && npm run build:clean && npm run build:src",
     "build:clean": "rimraf dist/",
     "build:src": "tsc --declaration"
   },
