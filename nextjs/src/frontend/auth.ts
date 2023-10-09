@@ -1,20 +1,26 @@
-
 import useSWR from 'swr'
 import config from '../lib/config'
 const { authApiRoute } = config
-import { Auth, NotLoggedIn } from '../lib/auth'
+import { Auth } from '../lib/auth'
 
 const fetcher = async (url: string): Promise<Auth> => {
     const response = await fetch(url)
     const auth = response.json()
     return auth
-
 }
 
-export const useAuth = (passedAuth?: Auth): Auth => {
-    const { data: auth } = useSWR(authApiRoute, fetcher, {
-        fallbackData: passedAuth || NotLoggedIn
-    })
-    return auth
+export type UseUserTest = {
+    auth: Auth | undefined
+    isLoggedIn: boolean | undefined
+    isLoading: boolean
+}
+
+export const useUser = (): UseUserTest => {
+    const { data: auth, isLoading } = useSWR(authApiRoute, fetcher)
+    return {
+        auth,
+        isLoggedIn: auth?.isLoggedIn,
+        isLoading
+    }
 }
 
