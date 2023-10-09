@@ -9,13 +9,13 @@ const fetcher = async (url: string): Promise<Auth> => {
     return auth
 }
 
-export type UseUserTest = {
+export type UseUser = {
     auth: Auth | undefined
     isLoggedIn: boolean | undefined
     isLoading: boolean
 }
 
-export const useUser = (): UseUserTest => {
+export const useUser = (): UseUser => {
     const { data: auth, isLoading } = useSWR(authApiRoute, fetcher)
     return {
         auth,
