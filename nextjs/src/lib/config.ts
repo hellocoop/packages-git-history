@@ -3,6 +3,7 @@ import { Config, LoggedInParams, LoggedInResponse } from '../handlers/config'
 
 
 export interface IConfig {
+    production: boolean,
     error?: string[],
     scope?: Scope[],
     routes: {
@@ -35,13 +36,16 @@ const HELLO_API_ROUTE = process.env.HELLO_API_ROUTE as string || '/api/hellocoop
 const HELLO_DOMAIN = process.env.HELLO_DOMAIN as string || 'hello.coop'
 
 const _configuration: IConfig = {
+    production: process.env.NODE_ENV === 'production',
     routes: {
         loggedIn: '/',
         loggedOut: '/',
     },
     cookies: {
-        authName: (process.env.NODE_ENV === 'production' ? '__Host-':'')+'hellcoop_auth',
-        oidcName: 'hellcoop_oidc',
+        // not working :()
+        // authName: (process.env.NODE_ENV === 'production' ? '__Host-':'')+'hellocoop_auth',
+        authName: 'hellocoop_auth',
+        oidcName: 'hellocoop_oidc',
     },
     callbacks: {},
     apiRoute: HELLO_API_ROUTE,
@@ -70,23 +74,6 @@ const _configuration: IConfig = {
         || process.env.HELLO_COOKIE_SECRET_DEFAULT
 }
 
-function deepFreeze(obj: any): any {
-    // Ensure the object is an object (excluding null, which typeof returns 'object')
-    if (obj !== null && typeof obj === 'object') {
-      // Freeze the object itself
-      Object.freeze(obj);
-  
-      // Recursively freeze properties
-      for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          deepFreeze(obj[key]);
-        }
-      }
-    }
-  
-  }
-
-
 export let configured: boolean = false
 export const configure = function ( config: Config ) {
     if (!config)
@@ -113,10 +100,9 @@ export const configure = function ( config: Config ) {
         console.error(message)
         configured = false
     } 
-console.log({configured})
-console.log({_configuration})
-    // not sure this will work
-    // deepFreeze(_configuration)
+// console.log({configured})
+// console.log({_configuration})
+
 }
 
 export default _configuration

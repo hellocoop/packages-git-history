@@ -21,8 +21,6 @@ export type Auth = {
     isLoggedIn: true,
 } & AuthCookie )
 
-const PRODUCTION:boolean = process.env.NODE_ENV == 'production'
-
 export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promise<boolean> =>  {
     try {
         const encCookie = await encryptObj(auth, config.secret as string)
@@ -30,9 +28,9 @@ export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promis
             return false
         res.setHeader('Set-Cookie',serialize( authName, encCookie, {
             httpOnly: true,
-            secure: PRODUCTION,
+            secure: config.production,
             sameSite: 'strict',
-            path: '/' // TBD restrict to API path
+            path: '/' // let any server side getAuth
             // no maxAge => session cooke
         }))
         return true    

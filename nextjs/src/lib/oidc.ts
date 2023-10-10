@@ -29,19 +29,17 @@ export const getOidc = async ( req: NextApiRequest, res: NextApiResponse): Promi
     return undefined
 }
 
-const PRODUCTION:boolean = process.env.NODE_ENV == 'production'
-
 export const saveOidc = async ( res: NextApiResponse, oidc: OIDC) => {
     try {
         const encCookie = await encryptObj(oidc, config.secret as string)
         res.setHeader('Set-Cookie',serialize( oidcName, encCookie, {
             httpOnly: true,
-            secure: PRODUCTION,
+            secure: config.production,
             maxAge: 5 * 60, // 5 minutes
             path: config.apiRoute
         }))
     } catch (e) {
-        console.log(e)
+        console.error(e)
     }
 }
 
