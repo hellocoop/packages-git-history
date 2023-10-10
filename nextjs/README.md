@@ -166,7 +166,7 @@ export { getServerSideProps } from '@hellocoop/nextjs'
 
 - `HELLO_COOKIE_SECRET` overrides `HELLO_COOKIE_SECRET_DEFAULT` in `.env` set by Quickstart. 
 
-This variable should be different from development. 
+This variable should be different from values checked into a repo. 
 
 ### Variables that may be needed
 
