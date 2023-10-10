@@ -33,7 +33,7 @@ const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
                     return res.status(500).end(err)
                 }
                 redirectURIs[host] = redirectURI = redirect_uri as string
-                console.log(`RedirectURI for ${host}=${redirectURI}`)
+                console.log(`RedirectURI for ${host} => ${redirectURI}`)
             } else {            
                 console.log('Discovering API RedirectURI route ...')
                 return res.end(redirectURIBounce())        
