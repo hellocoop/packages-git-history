@@ -216,13 +216,13 @@ export default async loggedIn ({ token, payload, req, res }:LoggedInParams)
 
     // no auth cookie set - redirected to error page
     if (!authorizedUser) 
-        return {isLoggedIn:false}
+        return {accessDenied: true}
 
     // no auth cookie set - process response directly
     if (!authorizedUser) {
         res.end(ErrorResponse)
         return {
-            isLoggedIn: false
+            accessDenied: true
             isProcessed: true
         }
     }
@@ -234,7 +234,7 @@ export default async loggedIn ({ token, payload, req, res }:LoggedInParams)
     const { email, name, picture } = payload
     res.end(LoggedInPage({ email, name, picture }))
     return { 
-        processed: true,
+        isProcessed: true,
         auth: { email, name, picture }
     }
 } 
